@@ -4,21 +4,28 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
 
 <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
    <content>
-      <MenuBar prefHeight="22.0" prefWidth="456.0">
-        <menus>
-          <Menu fx:id="menuCandidate" mnemonicParsing="false" text="Candidate">
-               <items>
-                  <MenuItem fx:id="menuItemNewCandidate" mnemonicParsing="false" onAction="#onMenuItemNewCandidateAction" text="New Candidate" />
-                  <MenuItem fx:id="menuItemListCandidate" mnemonicParsing="false" onAction="#onMenuItemListCandidateAction" text="List Candidates" />
-               </items></Menu>
-            <Menu fx:id="menuVote" mnemonicParsing="false" text="Voting box">
-               <items>
-                  <MenuItem fx:id="menuItemVote" mnemonicParsing="false" onAction="#onMenuItemVoteAction" text="Vote" />
-               </items></Menu>
-        </menus>
-      </MenuBar>
+      <VBox prefHeight="366.0" prefWidth="568.0">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="Candidate">
+                  <items>
+                        <MenuItem fx:id="menuItemListCandidate" mnemonicParsing="false" onAction="#onMenuItemListCandidateAction" text="List Candidates" />
+                    <MenuItem fx:id="menuItemNewCandidate" mnemonicParsing="false" onAction="#onMenuItemNewCandidateAction" text="New Candidate" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Voting Box">
+                  <items>
+                    <MenuItem fx:id="menuItemVote" mnemonicParsing="false" onAction="#onMenuItemVoteAction" text="Vote" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </VBox>
    </content>
 </ScrollPane>

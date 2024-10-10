@@ -35,6 +35,9 @@ public class CandidateListController implements Initializable{
 	@FXML
 	private TableColumn<Candidate, Integer> tableColumnNumber;
 	
+	@FXML
+	private TableColumn<Candidate, Integer> tableColumnNumVotes;
+	
 	private ObservableList<Candidate> obsList;
 	
 	
@@ -52,6 +55,7 @@ public class CandidateListController implements Initializable{
 		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tableColumnParty.setCellValueFactory(new PropertyValueFactory<>("party"));
 		tableColumnNumber.setCellValueFactory(new PropertyValueFactory<>("number"));
+		tableColumnNumVotes.setCellValueFactory(new PropertyValueFactory<>("numVotes"));
 		
 		Stage stage = (Stage)Main.getMainScene().getWindow();
 		tableViewCandidate.prefHeightProperty().bind(stage.heightProperty());

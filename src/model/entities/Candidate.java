@@ -11,6 +11,7 @@ public class Candidate implements Serializable{
 	private String name;
 	private String party;
 	private Integer number;
+	private Integer numVotes = 0;
 	
 	public Candidate() {
 		
@@ -49,6 +50,14 @@ public class Candidate implements Serializable{
 
 	public Integer getNumber() {
 		return number;
+	}
+
+	public Integer getNumVotes() {
+		return numVotes;
+	}
+
+	public void setNumVotes(Integer numVotes) {
+		this.numVotes = numVotes;
 	}
 
 	public void setNumber(Integer number) {

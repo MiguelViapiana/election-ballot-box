@@ -36,7 +36,10 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemNewCandidateAction() {
-		
+		loadView("/gui/CandidateForm.fxml", (CandidateFormController controller) ->{
+			controller.setCandidateService(new CandidateService());
+			controller.setControllerMain(this);
+		});
 	}
 
 	@FXML

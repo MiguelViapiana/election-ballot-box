@@ -27,14 +27,15 @@ public class CandidateDaoJDBC implements CandidateDao{
 		try {
 			st = conn.prepareStatement(
 					"INSERT INTO candidates "+
-					"(name, party, number) "+
+					"(name, party, number, date_of_birth) "+
 					"VALUES "+
-					"(?, ?, ?) ",
+					"(?, ?, ?, ?) ",
 					Statement.RETURN_GENERATED_KEYS
 					);
 			st.setString(1, obj.getName());
 			st.setString(2, obj.getParty());
 			st.setInt(3, obj.getNumber());
+			st.setDate(4, new java.sql.Date(obj.getBirthDate().getTime()));
 			
 			int rowsAffectedd = st.executeUpdate();
 			
@@ -64,13 +65,14 @@ public class CandidateDaoJDBC implements CandidateDao{
 		try {
 			st = conn.prepareStatement(
 					"UPDATE candidates "+
-			        "SET name = ?, party = ?, number = ? "+
+			        "SET name = ?, party = ?, number = ?, birth_to_date = ? "+
 					"WHERE id = ? "
 					);
 			st.setString(1, obj.getName());
 			st.setString(2, obj.getParty());
 			st.setInt(3, obj.getNumber());
-			st.setInt(4, obj.getId());
+			st.setDate(4, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setInt(5, obj.getId());
 			
 			st.executeUpdate();
 		}
@@ -110,12 +112,7 @@ public class CandidateDaoJDBC implements CandidateDao{
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if(rs.next()) {
-				Candidate obj = new Candidate();
-				obj.setId(rs.getInt("id"));
-				obj.setName(rs.getString("name"));
-				obj.setParty(rs.getString("party"));
-				obj.setNumber(rs.getInt("number"));
-				obj.setNumVotes(rs.getInt("num_votes"));
+				Candidate obj = instantiateCandidate(rs);
 				return obj;
 			}
 			return null;
@@ -143,12 +140,7 @@ public class CandidateDaoJDBC implements CandidateDao{
 			List<Candidate> list = new ArrayList<>();
 			
 			while(rs.next()) {
-				Candidate obj = new Candidate();
-				obj.setId(rs.getInt("id"));
-				obj.setName(rs.getString("name"));
-				obj.setParty(rs.getString("party"));
-				obj.setNumber(rs.getInt("number"));
-				obj.setNumVotes(rs.getInt("num_votes"));
+				Candidate obj = instantiateCandidate(rs);
 				list.add(obj);
 			}
 			return list;			
@@ -160,5 +152,16 @@ public class CandidateDaoJDBC implements CandidateDao{
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
+	}
+	
+	public Candidate instantiateCandidate(ResultSet rs)throws SQLException {
+		Candidate obj = new Candidate();
+		obj.setId(rs.getInt("id"));
+		obj.setName(rs.getString("name"));
+		obj.setParty(rs.getString("party"));
+		obj.setNumber(rs.getInt("number"));
+		obj.setNumVotes(rs.getInt("num_votes"));
+		obj.setBirthDate(new java.util.Date(rs.getTimestamp("date_of_birth").getTime()));
+		return obj;
 	}
 }

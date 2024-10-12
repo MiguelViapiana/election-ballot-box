@@ -21,6 +21,7 @@
         <columns>
           <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="tableColumnName" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="tableColumnBirthDate" prefWidth="75.0" text="Birth Date" />
             <TableColumn fx:id="tableColumnParty" prefWidth="75.0" text="Party" />
             <TableColumn fx:id="tableColumnNumber" prefWidth="75.0" text="Number" />
             <TableColumn fx:id="tableColumnNumVotes" prefWidth="122.0" text="Number of votes" />

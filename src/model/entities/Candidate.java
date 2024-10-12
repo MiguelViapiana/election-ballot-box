@@ -1,6 +1,7 @@
 package model.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 public class Candidate implements Serializable{
@@ -11,17 +12,19 @@ public class Candidate implements Serializable{
 	private String name;
 	private String party;
 	private Integer number;
+	private Date birthDate;
 	private Integer numVotes = 0;
 	
 	public Candidate() {
 		
 	}
 
-	public Candidate(Integer id, String name, String party, Integer number) {
+	public Candidate(Integer id, String name,Date birthDate , String party, Integer number) {
 		this.id = id;
 		this.name = name;
 		this.party = party;
 		this.number = number;
+		this.setBirthDate(birthDate);
 	}
 
 	public Integer getId() {
@@ -62,6 +65,14 @@ public class Candidate implements Serializable{
 
 	public void setNumber(Integer number) {
 		this.number = number;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	@Override

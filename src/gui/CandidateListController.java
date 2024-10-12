@@ -1,10 +1,12 @@
 package gui;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,6 +40,9 @@ public class CandidateListController implements Initializable{
 	@FXML
 	private TableColumn<Candidate, Integer> tableColumnNumVotes;
 	
+	@FXML
+	private TableColumn<Candidate, Date> tableColumnBirthDate;
+	
 	private ObservableList<Candidate> obsList;
 	
 	
@@ -56,6 +61,8 @@ public class CandidateListController implements Initializable{
 		tableColumnParty.setCellValueFactory(new PropertyValueFactory<>("party"));
 		tableColumnNumber.setCellValueFactory(new PropertyValueFactory<>("number"));
 		tableColumnNumVotes.setCellValueFactory(new PropertyValueFactory<>("numVotes"));
+		tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+		Utils.formatTableColumnDate(tableColumnBirthDate, "dd/MM/yyyy");
 		
 		Stage stage = (Stage)Main.getMainScene().getWindow();
 		tableViewCandidate.prefHeightProperty().bind(stage.heightProperty());

@@ -116,6 +116,9 @@ public class CandidateFormController implements Initializable{
 		if(txtNumber.getText() == null || txtNumber.getText().trim().equals("")) {
 			exception.addErrors("number", "Field cant't be empty");
 		}
+		if(txtNumber.getText().length() < 2) {
+			exception.addErrors("number", "The candidate number\n must have two digits");
+		}
 		obj.setNumber(Utils.tryParseToInt(txtNumber.getText()));
 		
 		if(txtParty.getText() == null || txtParty.getText().trim().equals("")) {

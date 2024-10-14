@@ -31,7 +31,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemVoteAction() {
-
+		loadView("/gui/VoteView.fxml", x -> {});
 	}
 
 	@FXML
@@ -56,10 +56,8 @@ public class MainViewController implements Initializable {
 	        ScrollPane scrollPane = (ScrollPane) mainScene.getRoot();
 	        VBox mainVbox = (VBox) scrollPane.getContent();
 
-	        // Recupera o menu principal
 	        Node mainMenu = mainVbox.getChildren().get(0);
 	        
-	        // Limpa e reconfigura o conteúdo da VBox para garantir que está usando a instância original
 	        mainVbox.getChildren().clear();
 	        mainVbox.getChildren().add(mainMenu);
 	        
@@ -68,7 +66,6 @@ public class MainViewController implements Initializable {
 	        Alerts.showAlert("Exception", "Error returning to MainView", e.getMessage(), AlertType.ERROR);
 	    }
 	}
-
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -94,5 +91,4 @@ public class MainViewController implements Initializable {
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
-
 }

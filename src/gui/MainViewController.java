@@ -31,12 +31,12 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemVoteAction() {
-		
+
 	}
 
 	@FXML
 	public void onMenuItemNewCandidateAction() {
-		loadView("/gui/CandidateForm.fxml", (CandidateFormController controller) ->{
+		loadView("/gui/CandidateForm.fxml", (CandidateFormController controller) -> {
 			controller.setCandidateService(new CandidateService());
 			controller.setControllerMain(this);
 		});
@@ -49,6 +49,26 @@ public class MainViewController implements Initializable {
 			controller.updateTableView();
 		});
 	}
+	
+	public void backToMainView() {
+	    try {
+	        Scene mainScene = Main.getMainScene();
+	        ScrollPane scrollPane = (ScrollPane) mainScene.getRoot();
+	        VBox mainVbox = (VBox) scrollPane.getContent();
+
+	        // Recupera o menu principal
+	        Node mainMenu = mainVbox.getChildren().get(0);
+	        
+	        // Limpa e reconfigura o conteúdo da VBox para garantir que está usando a instância original
+	        mainVbox.getChildren().clear();
+	        mainVbox.getChildren().add(mainMenu);
+	        
+	        mainVbox.setFillWidth(true);
+	    } catch (Exception e) {
+	        Alerts.showAlert("Exception", "Error returning to MainView", e.getMessage(), AlertType.ERROR);
+	    }
+	}
+
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -59,19 +79,18 @@ public class MainViewController implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox newVbox = loader.load();
-			
+
 			Scene mainScene = Main.getMainScene();
-			VBox mainVbox = (VBox)((ScrollPane)mainScene.getRoot()).getContent();
-			
+			VBox mainVbox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+
 			Node mainMenu = mainVbox.getChildren().get(0);
 			mainVbox.getChildren().clear();
 			mainVbox.getChildren().add(mainMenu);
 			mainVbox.getChildren().addAll(newVbox.getChildren());
-			
+
 			T controller = loader.getController();
 			initializingAction.accept(controller);
-		} 
-		catch (IOException e) {
+		} catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}

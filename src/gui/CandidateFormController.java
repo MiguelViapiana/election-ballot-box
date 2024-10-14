@@ -97,6 +97,11 @@ public class CandidateFormController implements Initializable{
 	}
 	
 	@FXML
+	public void onBtCancelAction() {
+		mainController.backToMainView();
+	}
+	
+	@FXML
 	private Candidate getFormData() {
 		Candidate obj = new Candidate();
 		ValidateException exception = new ValidateException("Validaton error");
@@ -153,6 +158,7 @@ public class CandidateFormController implements Initializable{
 		Constraints.setTextFieldMaxLength(txtName, 70);
 		Constraints.setTextFieldMaxLength(txtParty, 10);
 		Constraints.setTextFieldInteger(txtNumber);
+		Constraints.setTextFieldMaxLength(txtNumber, 2);
 		Utils.formatDatePicker(dpBirthDate, "dd/MM/yyyy");
 	}
 }

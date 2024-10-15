@@ -1,14 +1,16 @@
 package gui;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import gui.util.Alerts;
 import gui.util.Constraints;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import model.entities.Candidate;
 import model.services.CandidateService;
 
@@ -54,6 +56,9 @@ public class VoteController implements Initializable {
     
     @FXML
     private Label lbError;
+    
+    @FXML
+    private Label lbConfirm;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -103,6 +108,7 @@ public class VoteController implements Initializable {
         	lbName.setText("");
         	lbParty.setText("");
         	lbError.setText("");
+        	lbConfirm.setText("");
         }
     }
 
@@ -117,16 +123,25 @@ public class VoteController implements Initializable {
     	
     	Candidate obj = candidateService.findByNumber(currentNumberCandidate);
     	if(obj == null) {
-    		lbError.setText("");;
+    		
+    		lbError.setText("");
     		lbError.setText("Candidato não existe");
     	}else {
-    		lbError.setText("");;
-    		lbError.setText("Candidato existe");
+    		candidateService.addVote(currentNumberCandidate);
+    		lbConfirm.setText("Candidato recebeu o seu voto");
     	}
     }
     
     public void setCandidateService(CandidateService service) {
     	this.candidateService = service;
+    }
+    
+    public void printVote() {
+    	Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Print proof of vote?");
+    	
+    	if(result.get() == ButtonType.OK) {
+    		
+    	}
     }
 }
 

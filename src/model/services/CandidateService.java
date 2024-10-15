@@ -30,4 +30,8 @@ public class CandidateService {
 	public Candidate findByNumber(String number) {
 		return dao.findByNumber(number);
 	}
+	
+	public void addVote(String number) {
+		dao.addVote(number);
+	}
 }

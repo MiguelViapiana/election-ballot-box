@@ -188,4 +188,29 @@ public class CandidateDaoJDBC implements CandidateDao{
 			DB.closeResultSet(rs);
 		}
 	}
+
+	@Override
+	public void addVote(String number) {
+	    PreparedStatement st = null;
+	    try {
+	        st = conn.prepareStatement(
+	                "UPDATE candidates " +
+	                "SET num_votes = num_votes + 1 " +
+	                "WHERE number = ?"
+	        );
+	        st.setString(1, number);
+	        int rowsAffected = st.executeUpdate();
+	        
+	        if (rowsAffected == 0) {
+	            throw new DbException("No candidate found with the given number!");
+	        }
+	    }
+	    catch(SQLException e) {
+	        throw new DbException(e.getMessage());
+	    }
+	    finally {
+	        DB.closeStatement(st);
+	    }    
+	}
+
 }

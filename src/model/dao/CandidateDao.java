@@ -12,4 +12,5 @@ public interface CandidateDao {
 	Candidate findById(Integer id);
 	Candidate findByNumber(String number);
 	List<Candidate> findAll();
+	void addVote(String number);
 }

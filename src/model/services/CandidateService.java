@@ -26,4 +26,8 @@ public class CandidateService {
 	public void remove(Candidate obj) {
 		dao.deleteById(obj.getId());
 	}
+	
+	public Candidate findByNumber(String number) {
+		return dao.findByNumber(number);
+	}
 }

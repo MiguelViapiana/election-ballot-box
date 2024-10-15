@@ -29,15 +29,19 @@ public class MainViewController implements Initializable {
 	@FXML
 	private MenuItem menuItemListCandidate;
 
+	private CandidateService candidateService = new CandidateService();
+	
 	@FXML
 	public void onMenuItemVoteAction() {
-		loadView("/gui/VoteView.fxml", x -> {});
+		loadView("/gui/VoteView.fxml", (VoteController controller) -> {
+			controller.setCandidateService(candidateService);
+		});
 	}
 
 	@FXML
 	public void onMenuItemNewCandidateAction() {
 		loadView("/gui/CandidateForm.fxml", (CandidateFormController controller) -> {
-			controller.setCandidateService(new CandidateService());
+			controller.setCandidateService(candidateService);
 			controller.setControllerMain(this);
 		});
 	}

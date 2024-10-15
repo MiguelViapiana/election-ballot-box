@@ -164,4 +164,28 @@ public class CandidateDaoJDBC implements CandidateDao{
 		obj.setBirthDate(new java.util.Date(rs.getTimestamp("date_of_birth").getTime()));
 		return obj;
 	}
+
+	@Override
+	public Candidate findByNumber(String number) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT * FROM candidates WHERE number = ?");
+			st.setString(1, number);
+			
+			rs = st.executeQuery();
+			if(rs.next()) {
+				Candidate obj = instantiateCandidate(rs);
+				return obj;
+			}
+			return null;
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
 }

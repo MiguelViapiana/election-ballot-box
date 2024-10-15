@@ -10,5 +10,6 @@ public interface CandidateDao {
 	void update(Candidate obj);
 	void deleteById(Integer id);
 	Candidate findById(Integer id);
+	Candidate findByNumber(String number);
 	List<Candidate> findAll();
 }

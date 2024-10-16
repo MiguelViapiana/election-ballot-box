@@ -89,7 +89,7 @@ public class CandidateFormController implements Initializable{
 		try {
 			entity = getFormData();
 			service.saveOrUpdate(entity);
-			Alerts.showConfirmation("Candidate added successfully", null);
+			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 			
 		}
@@ -99,6 +99,12 @@ public class CandidateFormController implements Initializable{
 		catch(ValidateException e) {
 			setErrorsMessages(e.getErrors());
 		}	
+	}
+	
+	private void notifyDataChangeListeners() {
+		for (DataChangeListener listener : dataChangeListeners) {
+			listener.onDataChanged();
+		}
 	}
 	
 	@FXML

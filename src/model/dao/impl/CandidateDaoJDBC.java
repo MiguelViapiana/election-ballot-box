@@ -65,7 +65,7 @@ public class CandidateDaoJDBC implements CandidateDao{
 		try {
 			st = conn.prepareStatement(
 					"UPDATE candidates "+
-			        "SET name = ?, party = ?, number = ?, birth_to_date = ? "+
+			        "SET name = ?, party = ?, number = ?, date_of_birth = ? "+
 					"WHERE id = ? "
 					);
 			st.setString(1, obj.getName());

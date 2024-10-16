@@ -2,16 +2,22 @@ package gui;
 
 import java.net.URL;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 import db.DbException;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
@@ -29,7 +35,7 @@ public class CandidateFormController implements Initializable{
 	
 	private CandidateService service;
 	
-	private MainViewController mainController;
+	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 	
 	@FXML
 	private TextField txtId;
@@ -71,13 +77,12 @@ public class CandidateFormController implements Initializable{
 	public void setCandidateService(CandidateService service) {
 		this.service = service;
 	}
-	
-	public void setControllerMain(MainViewController controller) {
-		this.mainController = controller;
+	public void subscribeDataChangeListener(DataChangeListener listener) {
+		dataChangeListeners.add(listener);
 	}
 	
 	@FXML
-	public void onBtSaveAction() {
+	public void onBtSaveAction(ActionEvent event) {
 		if (service == null) {
 			throw new IllegalStateException("Service was null");
 		}
@@ -85,7 +90,7 @@ public class CandidateFormController implements Initializable{
 			entity = getFormData();
 			service.saveOrUpdate(entity);
 			Alerts.showConfirmation("Candidate added successfully", null);
-			mainController.onMenuItemListCandidateAction();
+			Utils.currentStage(event).close();
 			
 		}
 		catch(DbException e) {
@@ -97,8 +102,8 @@ public class CandidateFormController implements Initializable{
 	}
 	
 	@FXML
-	public void onBtCancelAction() {
-		mainController.backToMainView();
+	public void onBtCancelAction(ActionEvent event) {
+		Utils.currentStage(event).close();
 	}
 	
 	@FXML
@@ -139,6 +144,20 @@ public class CandidateFormController implements Initializable{
 		
 		
 		return obj;	
+	}
+	
+	public void updateFormData() {
+		if (entity == null) {
+			throw new IllegalStateException("Entity was null");
+		}
+		txtId.setText(String.valueOf(entity.getId()));
+		txtName.setText(entity.getName());
+		txtParty.setText(entity.getParty());
+		txtNumber.setText(String.format("%02d", entity.getNumber()));
+		Locale.setDefault(Locale.US);
+		if (entity.getBirthDate() != null) {
+			dpBirthDate.setValue(LocalDate.ofInstant(entity.getBirthDate().toInstant(), ZoneId.systemDefault()));
+		}
 	}
 	
 	private void setErrorsMessages(Map<String, String> errors) {

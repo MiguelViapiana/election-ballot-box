@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import gui.util.Alerts;
 import gui.util.Constraints;
@@ -68,6 +69,7 @@ public class VoteController implements Initializable {
 
 	@FXML
 	private Label lbConfirm;
+	
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -131,18 +133,30 @@ public class VoteController implements Initializable {
 
 	public void confirmCandidate(ActionEvent event) {
 		String currentNumberCandidate = lbNumber.getText();
-
 		Candidate obj = candidateService.findByNumber(currentNumberCandidate);
 		if (obj == null) {
-
 			lbError.setText("");
 			lbError.setText("Candidato não existe");
 		} else {
-			candidateService.addVote(currentNumberCandidate);
-			Stage parentStage = Utils.currentStage(event);
-			createProofVote("/gui/ProofView.fxml", parentStage);
-			lbConfirm.setText("Candidato recebeu o seu voto");
-			clearAll();
+			Optional<ButtonType> result = Alerts.showConfirmation("Proof of vote", "On your receipt, do you want it to contain the candidate who received the vote?");
+			
+			if(result.get()  == ButtonType.OK) {
+				candidateService.addVote(currentNumberCandidate);
+				Stage parentStage = Utils.currentStage(event);
+				createProofVote("/gui/ProofWithCandidateView.fxml", parentStage, (ProofWithCandidateController controller) ->{
+					controller.setCandidate(obj);
+					controller.initInitialize();
+				});
+				lbConfirm.setText("Candidato recebeu o seu voto");
+				clearAll();	
+			}
+			else {
+				candidateService.addVote(currentNumberCandidate);
+				Stage parentStage = Utils.currentStage(event);
+				createProofVote("/gui/proofView.fxml", parentStage, x ->{});
+				lbConfirm.setText("Candidato recebeu o seu voto");
+				clearAll();
+			}
 		}
 	}
 
@@ -150,31 +164,27 @@ public class VoteController implements Initializable {
 		this.candidateService = service;
 	}
 
-	public void printVote() {
-		Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Print proof of vote?");
-
-		if (result.get() == ButtonType.OK) {
-
-		}
+	public synchronized <T> void createProofVote(String absoluteName, Stage parentStage,  Consumer<T> initializingAction) {
+	    try {
+	    	FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+	        Pane pane = loader.load();
+	        
+			T controller = loader.getController();
+			initializingAction.accept(controller);
+	        
+	        Stage dialogStage = new Stage();
+	        dialogStage.setTitle("Proof Vote");
+	        dialogStage.setScene(new Scene(pane));
+	        dialogStage.setResizable(false);
+	        dialogStage.initOwner(parentStage);
+	        dialogStage.initModality(Modality.WINDOW_MODAL);
+	        
+	        dialogStage.showAndWait();
+	    	        
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
+	    }
 	}
 
-	public void createProofVote(String absoluteName, Stage parentStage) {
-    	try {
-	    	FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-	    	Pane pane = loader.load();
-	    	
-	    	Stage dialogStage = new Stage();
-	    	dialogStage.setTitle("Proof Vote");
-	    	dialogStage.setScene(new Scene(pane));
-	    	dialogStage.setResizable(false);
-	    	dialogStage.initOwner(parentStage);
-	    	dialogStage.initModality(Modality.WINDOW_MODAL);
-	    	dialogStage.showAndWait();
-    	}
-    	
-    	catch(IOException e) {
-    		e.printStackTrace();
-    		Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
-    	}
-    }
 }

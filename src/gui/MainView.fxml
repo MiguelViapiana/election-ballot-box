@@ -15,6 +15,7 @@
                 <Menu mnemonicParsing="false" text="Candidate">
                   <items>
                         <MenuItem fx:id="menuItemListCandidate" mnemonicParsing="false" onAction="#onMenuItemListCandidateAction" text="List Candidates" />
+                        <MenuItem fx:id="menuItemResult" mnemonicParsing="false" onAction="#onMenuItemResultAction" text="Result" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Voting Box">

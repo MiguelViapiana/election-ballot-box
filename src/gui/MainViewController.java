@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alerts;
+import gui.util.Utils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,7 +17,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import model.entities.Candidate;
 import model.services.CandidateService;
 
 public class MainViewController implements Initializable {
@@ -25,6 +31,9 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	private MenuItem menuItemListCandidate;
+	
+	@FXML
+	private MenuItem menuItemResult;
 
 	private CandidateService candidateService = new CandidateService();
 	
@@ -32,6 +41,14 @@ public class MainViewController implements Initializable {
 	public void onMenuItemVoteAction() {
 		loadView("/gui/VoteView.fxml", (VoteController controller) -> {
 			controller.setCandidateService(candidateService);
+		});
+	}
+	
+	@FXML
+	public void onMenuItemResultAction() {
+		loadView("/gui/ResultView.fxml", (CandidateResultController controller) -> {
+			controller.setCandidateService(candidateService);
+			controller.updateTableView();
 		});
 	}
 
@@ -64,7 +81,7 @@ public class MainViewController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 
 	}
-
+	
 	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));

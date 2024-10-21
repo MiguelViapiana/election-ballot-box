@@ -164,8 +164,18 @@ public class CandidateListController implements Initializable, DataChangeListene
 					setGraphic(null);
 					return;
 				}
-				setGraphic(button);
-				button.setOnAction(event -> removeEntity(obj));
+				if (obj.getNumVotes() > 0) {        
+	                button.setOnAction(event -> {
+	                    Alerts.showAlert("Unable to delete candidate", 
+	                        "It is not possible to delete candidates who have already received a vote", 
+	                        null, AlertType.ERROR);
+	                });
+	            } else {
+	                setGraphic(button);
+	                button.setOnAction(event -> removeEntity(obj));  
+	            }
+	            
+	            setGraphic(button); 
 			}
 		});
 	}

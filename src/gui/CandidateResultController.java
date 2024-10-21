@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
-import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -39,6 +39,9 @@ public class CandidateResultController implements Initializable{
 	@FXML
 	private TableColumn<Candidate, Integer> tableColumnPorcentage;
 	
+	@FXML
+	private Label lbTotalVotes;
+	
 	private ObservableList<Candidate> obsList;
 	
 	public void setCandidateService(CandidateService service) {
@@ -52,6 +55,8 @@ public class CandidateResultController implements Initializable{
 		List<Candidate> list = service.findAll();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewCandidate.setItems(obsList);
+		
+		initializeVoteData();
 	}
 	
 	@Override
@@ -70,5 +75,19 @@ public class CandidateResultController implements Initializable{
 		tableViewCandidate.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
+	private void initializeVoteData() {
+		lbTotalVotes.setText(lbTotalVotes.getText() + " " + countTotalVotes());
+	}
 
+	public String countTotalVotes() {
+		if (service == null){
+			throw new IllegalStateException("Service was null");
+		}
+		int totalvotes = 0;
+		List<Candidate> list = service.findAll();
+		for(Candidate obj : list) {
+			totalvotes += obj.getNumVotes();
+		}
+		return String.valueOf(totalvotes);
+	}
 }

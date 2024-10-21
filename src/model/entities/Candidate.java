@@ -14,6 +14,7 @@ public class Candidate implements Serializable{
 	private Integer number;
 	private Date birthDate;
 	private Integer numVotes = 0;
+	private double percentage;
 	
 	public Candidate() {
 		
@@ -74,6 +75,14 @@ public class Candidate implements Serializable{
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	public double getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(double percentage) {
+        this.percentage = percentage;
+    }
 
 	@Override
 	public int hashCode() {

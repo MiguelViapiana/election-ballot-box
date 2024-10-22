@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="669.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VoteController">
+<VBox prefHeight="669.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VoteController">
    <children>
       <Label prefHeight="27.0" prefWidth="232.0" text="Electronic voting machine">
          <font>

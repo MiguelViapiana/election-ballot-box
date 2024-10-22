@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="727.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CandidateFormController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="727.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CandidateFormController">
    <children>
       <Label text="New Candidate" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
          <font>
@@ -43,7 +43,7 @@
             <Label text="Name" GridPane.rowIndex="2" />
             <Label text="Party" GridPane.rowIndex="4" />
             <Label text="Number" GridPane.rowIndex="5" />
-            <TextField fx:id="txtId" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtId" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="txtParty" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="txtNumber" GridPane.columnIndex="1" GridPane.rowIndex="5" />

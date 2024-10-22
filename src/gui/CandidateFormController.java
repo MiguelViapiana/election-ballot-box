@@ -3,6 +3,7 @@ package gui;
 import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -137,11 +138,20 @@ public class CandidateFormController implements Initializable{
 		}
 		obj.setParty(txtParty.getText());
 		
-		if(dpBirthDate.getValue() == null) {
-			exception.addErrors("birthDate", "Field cant't be empty");
-		}else {
-			Instant instant = Instant.from(dpBirthDate.getValue().atStartOfDay(ZoneId.systemDefault()));
-			obj.setBirthDate(Date.from(instant));
+		if (dpBirthDate.getValue() == null) {
+			exception.addErrors("birthDate", "Field can't be empty");
+		} else {
+			LocalDate birthDate = dpBirthDate.getValue();
+			LocalDate currentDate = LocalDate.now();
+
+			int age = Period.between(birthDate, currentDate).getYears();
+			
+			if(age < 35) {
+				exception.addErrors("birthDate", "Person must be 35 years or older");
+			}else {
+				Instant instant = Instant.from(dpBirthDate.getValue().atStartOfDay(ZoneId.systemDefault()));
+				obj.setBirthDate(Date.from(instant));
+			}	
 		}
 		
 		if (exception.getErrors().size() > 0) {
